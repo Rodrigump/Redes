@@ -11,6 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -21,27 +23,25 @@ public class Board extends JPanel implements ActionListener {
     private final int B_WIDTH = 500;
     private final int B_HEIGHT = 500;
     private final int DOT_SIZE = 10;
-    private final int ALL_DOTS = 900;
     private final int RAND_POS = 29;
     private final int DELAY = 140;
 
-    private final int x[] = new int[ALL_DOTS];
-    private final int y[] = new int[ALL_DOTS];
+    private final int NPLAYERS = 2;
+    
+    private final Map<String, Snake> snakeMap = new HashMap<String, Snake>();
+    
 
-    private int dots;
+
+    static int yInit = 0;
     private int apple_x;
     private int apple_y;
 
-    private boolean leftDirection = false;
-    private boolean rightDirection = true;
-    private boolean upDirection = false;
-    private boolean downDirection = false;
+
     private boolean inGame = true;
 
     private Timer timer;
-    private Image ball;
     private Image apple;
-    private Image head;
+
 
     public Board() {
 
@@ -55,25 +55,34 @@ public class Board extends JPanel implements ActionListener {
     }
 
     private void loadImages() {
-
-        ImageIcon iid = new ImageIcon("src/body.png");
-        ball = iid.getImage();
-
-        ImageIcon iia = new ImageIcon("src/apple.png");
+    	
+    	
+    	ImageIcon iia = new ImageIcon("src/apple.png");
         apple = iia.getImage();
+    	
 
-        ImageIcon iih = new ImageIcon("src/head.png");
-        head = iih.getImage();
     }
 
-    private void initGame() {
-
-        dots = 3;
-
-        for (int z = 0; z < dots; z++) {
-            x[z] = 50 - z * 10;
-            y[z] = 50;
+    private void locate(String snake) {
+    	snakeMap.get(snake).dots = 3;
+    	yInit += 50;
+        for (int z = 0; z < snakeMap.get(snake).dots; z++) {
+        	snakeMap.get(snake).x[z] = 50 - z * 10;
+        	snakeMap.get(snake).y[z] = yInit;
         }
+    }
+    
+    
+    private void initGame() {
+    	
+        for(int j = 1; j<NPLAYERS+1;j++) {
+        	String s = "Snake"+j;
+        	snakeMap.put(s, new Snake());
+        	locate(s);
+        }
+    	
+    	
+
 
         locateApple();
 
@@ -88,19 +97,29 @@ public class Board extends JPanel implements ActionListener {
         doDrawing(g);
     }
     
+    
+    private void drawSnake(String snake,Graphics g) {
+        for (int z = 0; z < snakeMap.get(snake).dots; z++) {
+            if (z == 0) {
+                g.drawImage(snakeMap.get(snake).head, snakeMap.get(snake).x[z], snakeMap.get(snake).y[z], this);
+            } else {
+                g.drawImage(snakeMap.get(snake).ball, snakeMap.get(snake).x[z], snakeMap.get(snake).y[z], this);
+            }
+        }
+    }
+    
     private void doDrawing(Graphics g) {
         
         if (inGame) {
 
             g.drawImage(apple, apple_x, apple_y, this);
 
-            for (int z = 0; z < dots; z++) {
-                if (z == 0) {
-                    g.drawImage(head, x[z], y[z], this);
-                } else {
-                    g.drawImage(ball, x[z], y[z], this);
-                }
+            for(int j = 1; j<NPLAYERS+1;j++) {
+            	String s = "Snake"+j;
+            	drawSnake(s,g);
+            
             }
+
 
             Toolkit.getDefaultToolkit().sync();
 
@@ -121,61 +140,61 @@ public class Board extends JPanel implements ActionListener {
         g.drawString(msg, (B_WIDTH - metr.stringWidth(msg)) / 2, B_HEIGHT / 2);
     }
 
-    private void checkApple() {
+    private void checkApple(String snake) {
 
-        if ((x[0] == apple_x) && (y[0] == apple_y)) {
+        if ((snakeMap.get(snake).x[0] == apple_x) && (snakeMap.get(snake).y[0] == apple_y)) {
 
-            dots++;
+        	snakeMap.get(snake).dots++;
             locateApple();
         }
     }
 
-    private void move() {
+    private void move(String snake) {
 
-        for (int z = dots; z > 0; z--) {
-            x[z] = x[(z - 1)];
-            y[z] = y[(z - 1)];
+        for (int z = snakeMap.get(snake).dots; z > 0; z--) {
+        	snakeMap.get(snake).x[z] = snakeMap.get(snake).x[(z - 1)];
+            snakeMap.get(snake).y[z] = snakeMap.get(snake).y[(z - 1)];
         }
 
-        if (leftDirection) {
-            x[0] -= DOT_SIZE;
+        if (snakeMap.get(snake).leftDirection) {
+        	snakeMap.get(snake).x[0] -= DOT_SIZE;
         }
 
-        if (rightDirection) {
-            x[0] += DOT_SIZE;
+        if (snakeMap.get(snake).rightDirection) {
+        	snakeMap.get(snake).x[0] += DOT_SIZE;
         }
 
-        if (upDirection) {
-            y[0] -= DOT_SIZE;
+        if (snakeMap.get(snake).upDirection) {
+        	snakeMap.get(snake).y[0] -= DOT_SIZE;
         }
 
-        if (downDirection) {
-            y[0] += DOT_SIZE;
+        if (snakeMap.get(snake).downDirection) {
+        	snakeMap.get(snake).y[0] += DOT_SIZE;
         }
     }
 
-    private void checkCollision() {
+    private void checkCollision(String snake) {
 
-        for (int z = dots; z > 0; z--) {
+        for (int z = snakeMap.get(snake).dots; z > 0; z--) {
 
-            if ((z > 4) && (x[0] == x[z]) && (y[0] == y[z])) {
+            if ((z > 4) && (snakeMap.get(snake).x[0] == snakeMap.get(snake).x[z]) && (snakeMap.get(snake).y[0] == snakeMap.get(snake).y[z])) {
                 inGame = false;
             }
         }
 
-        if (y[0] >= B_HEIGHT) {
+        if (snakeMap.get(snake).y[0] >= B_HEIGHT) {
             inGame = false;
         }
 
-        if (y[0] < 0) {
+        if (snakeMap.get(snake).y[0] < 0) {
             inGame = false;
         }
 
-        if (x[0] >= B_WIDTH) {
+        if (snakeMap.get(snake).x[0] >= B_WIDTH) {
             inGame = false;
         }
 
-        if (x[0] < 0) {
+        if (snakeMap.get(snake).x[0] < 0) {
             inGame = false;
         }
         
@@ -198,9 +217,13 @@ public class Board extends JPanel implements ActionListener {
 
         if (inGame) {
 
-            checkApple();
-            checkCollision();
-            move();
+        	for(int j = 1; j<NPLAYERS+1;j++) {
+            	String s = "Snake"+j;
+        	
+	            checkApple(s);
+	            checkCollision(s);
+	            move(s);
+        	}
         }
 
         repaint();
@@ -213,28 +236,28 @@ public class Board extends JPanel implements ActionListener {
 
             int key = e.getKeyCode();
 
-            if ((key == KeyEvent.VK_LEFT) && (!rightDirection)) {
-                leftDirection = true;
-                upDirection = false;
-                downDirection = false;
+            if ((key == KeyEvent.VK_LEFT) && (!snakeMap.get("Snake1").rightDirection)) {
+            	snakeMap.get("Snake1").leftDirection = true;
+            	snakeMap.get("Snake1").upDirection = false;
+            	snakeMap.get("Snake1").downDirection = false;
             }
 
-            if ((key == KeyEvent.VK_RIGHT) && (!leftDirection)) {
-                rightDirection = true;
-                upDirection = false;
-                downDirection = false;
+            if ((key == KeyEvent.VK_RIGHT) && (!snakeMap.get("Snake1").leftDirection)) {
+            	snakeMap.get("Snake1").rightDirection = true;
+            	snakeMap.get("Snake1"). upDirection = false;
+            	snakeMap.get("Snake1").downDirection = false;
             }
 
-            if ((key == KeyEvent.VK_UP) && (!downDirection)) {
-                upDirection = true;
-                rightDirection = false;
-                leftDirection = false;
+            if ((key == KeyEvent.VK_UP) && (!snakeMap.get("Snake1").downDirection)) {
+            	snakeMap.get("Snake1").upDirection = true;
+            	snakeMap.get("Snake1").rightDirection = false;
+            	snakeMap.get("Snake1").leftDirection = false;
             }
 
-            if ((key == KeyEvent.VK_DOWN) && (!upDirection)) {
-                downDirection = true;
-                rightDirection = false;
-                leftDirection = false;
+            if ((key == KeyEvent.VK_DOWN) && (!snakeMap.get("Snake1").upDirection)) {
+            	snakeMap.get("Snake1").downDirection = true;
+            	snakeMap.get("Snake1").rightDirection = false;
+            	snakeMap.get("Snake1").leftDirection = false;
             }
         }
     }

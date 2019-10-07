@@ -1,32 +1,25 @@
 package snake;
 
 import java.awt.EventQueue;
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 
-public class Snake extends JFrame {
+public class Snake {
+    public final int x[] = new int[900];
+    public final int y[] = new int[900];
 
-    public Snake() {
-
-        add(new Board());
-        
-        setResizable(false);
-        pack();
-        
-        setTitle("Snake");
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    }
+    public int dots;
     
-
-    public static void main(String[] args) {
-        
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {                
-                JFrame ex = new Snake();
-                ex.setVisible(true);                
-            }
-        });
-    }
+    public boolean leftDirection = false;
+    public boolean rightDirection = true;
+    public boolean upDirection = false;
+    public boolean downDirection = false;
+    public ImageIcon iid = new ImageIcon("src/body.png");
+    public ImageIcon iih = new ImageIcon("src/head.png");
+    public Image head = iih.getImage();
+    public Image ball = iid.getImage();
+    
 }
