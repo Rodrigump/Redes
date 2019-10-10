@@ -46,9 +46,10 @@ public class Board extends JPanel implements ActionListener {
     public Board() {
 
         addKeyListener(new TAdapter());
+        grabFocus();
         setBackground(Color.black);
         setFocusable(true);
-
+       
         setPreferredSize(new Dimension(B_WIDTH, B_HEIGHT));
         loadImages();
         initGame();
@@ -214,7 +215,7 @@ public class Board extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+    	
         if (inGame) {
 
         	for(int j = 1; j<NPLAYERS+1;j++) {
@@ -225,7 +226,8 @@ public class Board extends JPanel implements ActionListener {
 	            move(s);
         	}
         }
-
+        
+        
         repaint();
     }
 
@@ -233,10 +235,11 @@ public class Board extends JPanel implements ActionListener {
 
         @Override
         public void keyPressed(KeyEvent e) {
-
+        	
             int key = e.getKeyCode();
-
+            System.out.println(key);
             if ((key == KeyEvent.VK_LEFT) && (!snakeMap.get("Snake1").rightDirection)) {
+            	
             	snakeMap.get("Snake1").leftDirection = true;
             	snakeMap.get("Snake1").upDirection = false;
             	snakeMap.get("Snake1").downDirection = false;
