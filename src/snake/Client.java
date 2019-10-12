@@ -143,16 +143,13 @@ class Input extends Thread{
             
             if (r == JOptionPane.YES_OPTION) {
             	out.writeInt(1);
-                
             	
             } 
 
             int podeComecar=0;
 
-            while(podeComecar != 1){
-            	out.writeInt(podeComecar);
-            	podeComecar = in.readInt();
-            	
+            while(podeComecar <totalPlayers){
+             podeComecar = in.readInt();
             	
             }
             
