@@ -149,12 +149,10 @@ class Input extends Thread{
 
             int podeComecar=0;
 
-            while(true){
-            	socket.wait(10);
-            	podeComecar = in.readInt();            	        
-            	if(podeComecar == 1){
-            		break;
-            	}
+            while(podeComecar != 1){
+            	out.writeInt(podeComecar);
+            	podeComecar = in.readInt();
+            	
             	
             }
             
