@@ -26,7 +26,7 @@ public class Board extends JPanel implements ActionListener {
     private final int RAND_POS = 29;
     private final int DELAY = 140;
 
-    private final int NPLAYERS = 2;
+    public static int NPLAYERS = 2;
     
     private final Map<String, Snake> snakeMap = new HashMap<String, Snake>();
     
@@ -45,7 +45,7 @@ public class Board extends JPanel implements ActionListener {
 
     public Board() {
 
-        addKeyListener(new TAdapter());
+       // addKeyListener(new TAdapter());
         grabFocus();
         setBackground(Color.black);
         setFocusable(true);
@@ -75,6 +75,7 @@ public class Board extends JPanel implements ActionListener {
     
     
     private void initGame() {
+    	
     	
         for(int j = 1; j<NPLAYERS+1;j++) {
         	String s = "Snake"+j;
@@ -230,38 +231,44 @@ public class Board extends JPanel implements ActionListener {
         
         repaint();
     }
-
-    private class TAdapter extends KeyAdapter {
-
-        @Override
-        public void keyPressed(KeyEvent e) {
+    
+    public void atualizaPosicao(int key, String s) {
+    	Snake snake = snakeMap.get(s);
+    	if ((key == KeyEvent.VK_LEFT) && (!snake.rightDirection)) {
         	
-            int key = e.getKeyCode();
-            System.out.println(key);
-            if ((key == KeyEvent.VK_LEFT) && (!snakeMap.get("Snake1").rightDirection)) {
-            	
-            	snakeMap.get("Snake1").leftDirection = true;
-            	snakeMap.get("Snake1").upDirection = false;
-            	snakeMap.get("Snake1").downDirection = false;
-            }
-
-            if ((key == KeyEvent.VK_RIGHT) && (!snakeMap.get("Snake1").leftDirection)) {
-            	snakeMap.get("Snake1").rightDirection = true;
-            	snakeMap.get("Snake1"). upDirection = false;
-            	snakeMap.get("Snake1").downDirection = false;
-            }
-
-            if ((key == KeyEvent.VK_UP) && (!snakeMap.get("Snake1").downDirection)) {
-            	snakeMap.get("Snake1").upDirection = true;
-            	snakeMap.get("Snake1").rightDirection = false;
-            	snakeMap.get("Snake1").leftDirection = false;
-            }
-
-            if ((key == KeyEvent.VK_DOWN) && (!snakeMap.get("Snake1").upDirection)) {
-            	snakeMap.get("Snake1").downDirection = true;
-            	snakeMap.get("Snake1").rightDirection = false;
-            	snakeMap.get("Snake1").leftDirection = false;
-            }
+    		snake.leftDirection = true;
+    		snake.upDirection = false;
+    		snake.downDirection = false;
         }
+
+        if ((key == KeyEvent.VK_RIGHT) && (!snakeMap.get("Snake1").leftDirection)) {
+        	snake.rightDirection = true;
+        	snake. upDirection = false;
+        	snake.downDirection = false;
+        }
+
+        if ((key == KeyEvent.VK_UP) && (!snakeMap.get("Snake1").downDirection)) {
+        	snake.upDirection = true;
+        	snake.rightDirection = false;
+        	snake.leftDirection = false;
+        }
+
+        if ((key == KeyEvent.VK_DOWN) && (!snakeMap.get("Snake1").upDirection)) {
+        	snake.downDirection = true;
+        	snake.rightDirection = false;
+        	snake.leftDirection = false;
+        }
+    	
     }
+
+//    private class TAdapter extends KeyAdapter {
+//
+//        @Override
+//        public void keyPressed(KeyEvent e) {
+//        	
+//            int key = e.getKeyCode();
+//           // System.out.println(key);
+//            atualizaPosicao(key,"Snake1");
+//        }
+//    }
 }

@@ -57,17 +57,7 @@ public class MainScreen {
 	}
 	
 		
-	private static void startsGame(JPanel board) {
-		ex.getContentPane().removeAll();
-		ex.getContentPane().invalidate();
-		ex.getContentPane().add(board);
-		ex.getContentPane().revalidate();
-		board.requestFocusInWindow();
-		ex.setVisible(true);  
-		
-		
-		
-	}
+	
 	
 	
 	
@@ -101,7 +91,7 @@ public class MainScreen {
 					
 					
 					JPanel board = new Board();
-
+					Board.NPLAYERS = N_PLAYERS;
 					
 					Servidor serv = new Servidor();
 					serv.start();
@@ -116,8 +106,8 @@ public class MainScreen {
 						
 					}
 					JOptionPane.showMessageDialog(null, "Informar o ip: " + ipS[1]);
-					
-					Client cliente = new Client(ipS[1],ex);
+					System.out.println(ipS[1]);
+					Client cliente = new Client(ipS[1]);
 					
 					try {
 						cliente.run();	
@@ -143,7 +133,7 @@ public class MainScreen {
 					
 					String ip = JOptionPane.showInputDialog("Qual é o ip do servidor?");
 					//System.out.println(ip);
-					Client cliente = new Client(ip,ex);
+					Client cliente = new Client(ip);
 					try {
 						cliente.run();	
 					} catch (Exception err) {

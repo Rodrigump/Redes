@@ -3,16 +3,13 @@ package snake;
 
 
 	
-	import java.io.IOException;
-	import java.io.PrintWriter;
-import java.net.InetAddress;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.ServerSocket;
-	import java.net.Socket;
-	import java.util.Set;
+import java.net.Socket;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -23,14 +20,12 @@ import java.util.concurrent.Executors;
 		public static int jogadores;
 		public static int NPLAYERS = 0;
 		public static String ipServer;
-    	private final Map<String, Snake> snakeMap = new HashMap<String, Snake>();
+    	public static Map<String, Snake> snakeMap = new HashMap<String, Snake>();
 		
     	
     	Server(int jogadores){
     		Server.jogadores = jogadores;
     	}
-    	
-    	
     	
 
 	    public  void inicia() throws Exception {
@@ -40,10 +35,11 @@ import java.util.concurrent.Executors;
 	        	//ipServer = listener.getInetAddress().toString();
 	            while (NPLAYERS<=jogadores) {
 	            	
-	            	NPLAYERS += 1;
+	            	
 	                pool.execute(new Handler(listener.accept()));
+	                NPLAYERS += 1;
 	                System.out.println(NPLAYERS);
-	                System.out.println(jogadores);
+	                //System.out.println(jogadores);
 	            }
 	            System.out.println("aqui");
 	        }
@@ -55,8 +51,11 @@ import java.util.concurrent.Executors;
 	    private static class Handler implements Runnable {
 	    	
 	        private Socket socket;
-	        private Scanner in;
-	        private PrintWriter out;
+//	        private Scanner in;
+//	        private PrintWriter out;
+	        DataInputStream in;
+	        DataOutputStream out; 
+	        
 
 	        /**
 	         * Constructs a handler thread, squirreling away the socket. All the interesting
@@ -79,18 +78,23 @@ import java.util.concurrent.Executors;
 	         */
 	        public void run() {
 	            try {
-	                in = new Scanner(socket.getInputStream());
-	                out = new PrintWriter(socket.getOutputStream(), true);
-
+	            	System.out.println("Aqui");
+	            	in = new DataInputStream(socket.getInputStream());
+	                out = new DataOutputStream(socket.getOutputStream());
 	                int posicao;
-	                
+	                String playerNumber = "Snake" + NPLAYERS;
 	                // Keep requesting a new movement until we get a unique one.
+	                System.out.println(playerNumber);
+	                out.writeUTF(playerNumber);
+	                snakeMap.put(playerNumber, new Snake());
+	                
+	                
 	                while (true) {
-	                    posicao = in.nextInt();
-	                    
-	                    out.println();
-	                    
-	                    
+	                	
+	                	playerNumber = in.readUTF();
+	                	posicao = in.readInt();
+	                	System.out.println(playerNumber+" " + posicao);
+	                	out.writeUTF(playerNumber+" " + posicao);
 	                }
 
 	                // Now that a successful name has been chosen, add the socket's print writer
