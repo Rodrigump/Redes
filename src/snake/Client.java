@@ -117,30 +117,31 @@ class Input extends Thread{
             in = new DataInputStream(socket.getInputStream());
             out = new DataOutputStream(socket.getOutputStream());
 
-            
+            String snake = (String)in.readUTF();
+            playerName = snake;
             
             
             int r = JOptionPane.showConfirmDialog(null, "Iniciar o jogo?");
             
             if (r == JOptionPane.YES_OPTION) {
-                Server.podeComecar += 1;
+            	out.writeInt(1);
+                
             	Server.jogo.initGame();
             } else{
             	r = JOptionPane.showConfirmDialog(null, "E agora?");
             }
             
-            String snake = (String)in.readUTF();
-            playerName = snake;
+            
             int podeComecar = in.readInt();
             int NPLAYERS = in.readInt();
             System.out.println("Cliente recebeu "+ snake);
             
-            System.out.println(Server.podeComecar + " "+ Server.NPLAYERS);
+            
             
             while(podeComecar<= NPLAYERS){
             	podeComecar = in.readInt();
                 NPLAYERS = in.readInt();
-            	System.out.println("dentro" +Server.podeComecar + " "+ Server.NPLAYERS);
+            	System.out.println("dentro" +podeComecar + " "+ NPLAYERS);
             	System.out.print("");
             	if(Server.NPLAYERS==Server.podeComecar) {
             		System.out.println("A");
