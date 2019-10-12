@@ -21,5 +21,6 @@ public class Snake {
     public ImageIcon iih = new ImageIcon("src/head.png");
     public Image head = iih.getImage();
     public Image ball = iid.getImage();
+    public int score = 0;
     
 }

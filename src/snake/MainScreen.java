@@ -86,8 +86,8 @@ public class MainScreen {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO chama o servidor e conecta o cliente desse jogador ao servidor com localhost
-
-					N_PLAYERS = Integer.parseInt(JOptionPane.showInputDialog("Qual é o número de jogadores?"));
+					String name = JOptionPane.showInputDialog("Qual Ã© seu nome?");
+					N_PLAYERS = Integer.parseInt(JOptionPane.showInputDialog("Qual ï¿½ o nï¿½mero de jogadores?"));
 					
 					
 					JPanel board = new Board();
@@ -108,7 +108,7 @@ public class MainScreen {
 					JOptionPane.showMessageDialog(null, "Informar o ip: " + ipS[1]);
 					System.out.println(ipS[1]);
 					Client cliente = new Client(ipS[1]);
-					
+					cliente.playerName = name;
 					try {
 						cliente.run();	
 					} catch (Exception err) {
@@ -130,10 +130,11 @@ public class MainScreen {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
-					
-					String ip = JOptionPane.showInputDialog("Qual é o ip do servidor?");
+					String name = JOptionPane.showInputDialog("Qual Ã© seu nome?");
+					String ip = JOptionPane.showInputDialog("Qual Ã© o ip do servidor?");
 					//System.out.println(ip);
 					Client cliente = new Client(ip);
+					cliente.playerName = name;
 					try {
 						cliente.run();	
 					} catch (Exception err) {

@@ -140,12 +140,19 @@ public class Board extends JPanel implements ActionListener {
         g.setColor(Color.white);
         g.setFont(small);
         g.drawString(msg, (B_WIDTH - metr.stringWidth(msg)) / 2, B_HEIGHT / 2);
+        for(int j = 1; j<NPLAYERS+1;j++) {
+        	String s = "Snake"+j;
+        	String pontos = Integer.toString(snakeMap.get(s).score);
+        	pontos = s + " "+ pontos;
+        	 g.drawString(pontos, ((B_WIDTH - metr.stringWidth(msg)) / 2), (B_HEIGHT / 2)+20);
+        }
+        
     }
 
     private void checkApple(String snake) {
 
         if ((snakeMap.get(snake).x[0] == apple_x) && (snakeMap.get(snake).y[0] == apple_y)) {
-
+        	snakeMap.get(snake).score +=10;
         	snakeMap.get(snake).dots++;
             locateApple();
         }
@@ -153,11 +160,13 @@ public class Board extends JPanel implements ActionListener {
 
     private void move(String snake) {
 
-        for (int z = snakeMap.get(snake).dots; z > 0; z--) {
-        	snakeMap.get(snake).x[z] = snakeMap.get(snake).x[(z - 1)];
-            snakeMap.get(snake).y[z] = snakeMap.get(snake).y[(z - 1)];
-        }
-
+    	
+    		
+	        for (int z = snakeMap.get(snake).dots; z > 0; z--) {
+	        	snakeMap.get(snake).x[z] = snakeMap.get(snake).x[(z - 1)];
+	            snakeMap.get(snake).y[z] = snakeMap.get(snake).y[(z - 1)];
+	        }
+    	
         if (snakeMap.get(snake).leftDirection) {
         	snakeMap.get(snake).x[0] -= DOT_SIZE;
         }
@@ -176,15 +185,16 @@ public class Board extends JPanel implements ActionListener {
     }
 
     private void checkCollision(String snake) {
-
-        for (int z = snakeMap.get(snake).dots; z > 0; z--) {
-
-            if ((z > 4) && (snakeMap.get(snake).x[0] == snakeMap.get(snake).x[z]) && (snakeMap.get(snake).y[0] == snakeMap.get(snake).y[z])) {
-                inGame = false;
-            }
-        }
-
-        if (snakeMap.get(snake).y[0] >= B_HEIGHT) {
+    	for(int j = 1; j<NPLAYERS+1;j++) {
+    		String s = "Snake"+j;
+	        for (int z = snakeMap.get(s).dots; z > 0; z--) {
+	
+	            if ((z > 4) && (snakeMap.get(snake).x[0] == snakeMap.get(s).x[z]) && (snakeMap.get(snake).y[0] == snakeMap.get(s).y[z])) {
+	                inGame = false;
+	            }
+	        }
+    	}
+        if (snakeMap.get(snake).y[0] > B_HEIGHT) {
             inGame = false;
         }
 
@@ -192,7 +202,7 @@ public class Board extends JPanel implements ActionListener {
             inGame = false;
         }
 
-        if (snakeMap.get(snake).x[0] >= B_WIDTH) {
+        if (snakeMap.get(snake).x[0] > B_WIDTH) {
             inGame = false;
         }
 

@@ -82,19 +82,19 @@ import java.util.concurrent.Executors;
 	            	in = new DataInputStream(socket.getInputStream());
 	                out = new DataOutputStream(socket.getOutputStream());
 	                int posicao;
-	                String playerNumber = "Snake" + NPLAYERS;
+	                String playerName = "Snake" + NPLAYERS;
 	                // Keep requesting a new movement until we get a unique one.
-	                System.out.println(playerNumber);
-	                out.writeUTF(playerNumber);
-	                snakeMap.put(playerNumber, new Snake());
+	                System.out.println(playerName);
+	                out.writeUTF(playerName);
+	                snakeMap.put(playerName, new Snake());
 	                
 	                
 	                while (true) {
 	                	
-	                	playerNumber = in.readUTF();
+	                	playerName = in.readUTF();
 	                	posicao = in.readInt();
-	                	System.out.println(playerNumber+" " + posicao);
-	                	out.writeUTF(playerNumber+" " + posicao);
+	                	System.out.println(playerName+" " + posicao);
+	                	out.writeUTF(playerName+" " + posicao);
 	                }
 
 	                // Now that a successful name has been chosen, add the socket's print writer
