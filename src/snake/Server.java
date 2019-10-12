@@ -13,6 +13,8 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import javax.swing.JOptionPane;
+
 
 	public class Server {
 
@@ -20,9 +22,12 @@ import java.util.concurrent.Executors;
 		public static int jogadores;
 		public static int NPLAYERS = 0;
 		public static String ipServer;
-    	public static Map<String, Snake> snakeMap = new HashMap<String, Snake>();
+		public static int podeComecar = 0;
 		
+    	//public static Map<String, Snake> snakeMap = new HashMap<String, Snake>();
+		public static Board jogo = new Board();
     	
+		
     	Server(int jogadores){
     		Server.jogadores = jogadores;
     	}
@@ -31,18 +36,12 @@ import java.util.concurrent.Executors;
 	    public  void inicia() throws Exception {
 	        System.out.println("Servidor está rodando...");
 	         ExecutorService pool = Executors.newFixedThreadPool(500);
-	        try (ServerSocket listener = new ServerSocket(59001)) {
-	        	//ipServer = listener.getInetAddress().toString();
-	            while (NPLAYERS<=jogadores) {
-	            	
-	            	
+	        try (ServerSocket listener = new ServerSocket(59001)) {	        	
+	            while (true) {
 	                pool.execute(new Handler(listener.accept()));
 	                NPLAYERS += 1;
-	                //System.out.println(NPLAYERS);
-	                //System.out.println(jogadores);
-	            }
-	          
-	        }
+	            }            
+	        }	        
 	    }
 
 
@@ -53,21 +52,14 @@ import java.util.concurrent.Executors;
 //	        private PrintWriter out;
 	        DataInputStream in;
 	        DataOutputStream out; 
-	        
-
 
 	        public Handler(Socket socket) {
 	            this.socket = socket;
 	        }
 
-	        
-	        
-	        
-	        
-
 	        public void run() {
 	            try {
-	            	
+
 	            	in = new DataInputStream(socket.getInputStream());
 	                out = new DataOutputStream(socket.getOutputStream());
 	                int posicao;
@@ -75,20 +67,13 @@ import java.util.concurrent.Executors;
 	                // Keep requesting a new movement until we get a unique one.
 	                //System.out.println(playerName);
 	                out.writeUTF(playerName);
-	                snakeMap.put(playerName, new Snake());
-	                
-	                
-	                while (true) {
-	                	
+	               // Board.snakeMap.put(playerName, new Snake());
+	                while (true) {                	
 	                	playerName = in.readUTF();
 	                	posicao = in.readInt();
-	                	//System.out.println(playerName+" " + posicao);
+	                	jogo.atualizaPosicao(posicao, playerName);
 	                	out.writeUTF(playerName+" " + posicao);
 	                }
-
-
-	                
-
 
 	            } catch (Exception e) {
 	                System.out.println(e);
