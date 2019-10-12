@@ -1,5 +1,6 @@
 package snake;
 
+import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -9,6 +10,9 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 import javax.swing.JOptionPane;
@@ -121,7 +125,8 @@ class Input extends Thread{
             System.out.println("conectado");
             in = new DataInputStream(socket.getInputStream());
             out = new DataOutputStream(socket.getOutputStream());
-
+            
+            
             Board jogo = new Board();
             String snake = (String)in.readUTF();
             playerName = snake;
@@ -131,8 +136,8 @@ class Input extends Thread{
            
             int r = JOptionPane.showConfirmDialog(null, "Pronto?");
             if (r == JOptionPane.YES_OPTION) {
+            	
             	out.writeInt(1);
-            	in.readInt();
             }
             System.out.println("Prontos"+prontos+" players "+players);
             while(prontos<players){
