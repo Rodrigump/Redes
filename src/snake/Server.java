@@ -28,6 +28,11 @@ import java.util.concurrent.Executors;
     		Server.jogadores = jogadores;
     	}
     	
+    	public static void iniciaJogo(){
+    		Board jogo = new Board();
+    		jogo.initGame();
+    	}
+    	
 
 	    public  void inicia() throws Exception {
 	        System.out.println("Server is running...");
@@ -94,7 +99,7 @@ import java.util.concurrent.Executors;
 	                
 	                int prontos=0;
 	                
-	                
+	                iniciaJogo();
 	                
 	                while(prontos<jogadores){
 	                	
@@ -105,6 +110,8 @@ import java.util.concurrent.Executors;
 	                	prontos+= inp;
 	                	out.writeInt(prontos);
 	                }
+	                
+	                
 	                
 	                
 	                

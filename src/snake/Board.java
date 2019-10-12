@@ -52,7 +52,7 @@ public class Board extends JPanel implements ActionListener {
        
         setPreferredSize(new Dimension(B_WIDTH, B_HEIGHT));
         loadImages();
-        initGame();
+        //initGame();
     }
 
     private void loadImages() {
@@ -74,7 +74,7 @@ public class Board extends JPanel implements ActionListener {
     }
     
     
-    private void initGame() {
+    public void initGame() {
     	
     	
         for(int j = 1; j<NPLAYERS+1;j++) {
