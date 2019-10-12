@@ -130,25 +130,21 @@ class Input extends Thread{
                 
             	
             } 
-            
-            
-            int podeComecar=0;
-            int NPLAYERS=0;
-            
-            
-            
-            System.out.println("fora" +podeComecar + " "+ NPLAYERS);
-            while(podeComecar<= NPLAYERS && NPLAYERS == totalPlayers){
-            	System.out.println("dentro" +podeComecar + " "+ NPLAYERS);
-                podeComecar = in.readInt();
-                NPLAYERS = in.readInt();
 
+            int podeComecar=0;
+
+            
+            System.out.println("fora" +podeComecar );
+            while(podeComecar< totalPlayers){
+            	System.out.println("dentro" +podeComecar);
+                podeComecar = in.readInt();
+               
             }
             
             
-         if(NPLAYERS==podeComecar && NPLAYERS == totalPlayers) {
+         if(podeComecar == totalPlayers) {
     		System.out.println("A");
-    		
+    		Server.jogo.initGame();
         	startsGame();
          }
             

@@ -73,14 +73,15 @@ import javax.swing.JOptionPane;
 	               
 	                
 	                
-	                while(podeComecar<=NPLAYERS && NPLAYERS <= MainScreen.N_PLAYERS){
+	                while(podeComecar<MainScreen.N_PLAYERS){
 	                	podeComecar +=in.readInt();
+	                	System.out.println("podeC"+podeComecar);
 	                	out.writeInt(podeComecar);
 	                	out.writeInt(NPLAYERS);
 	                }
-	                out.flush();
 	                
-	                jogo.initGame();
+	                
+	                
 	                
 	                while (true) {                	
 	                	playerName = in.readUTF();
