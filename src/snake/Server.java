@@ -21,18 +21,15 @@ import java.util.concurrent.Executors;
 		public static int jogadores;
 		public static int NPLAYERS = 0;
 		public static String ipServer;
-    	public static Map<String, Snake> snakeMap = new HashMap<String, Snake>();
+    	//public static Map<String, Snake> snakeMap = new HashMap<String, Snake>();
     	private static ArrayList<DataOutputStream> out_stream = new ArrayList<DataOutputStream>();
+    	
     	
     	Server(int jogadores){
     		Server.jogadores = jogadores;
     	}
     	
-    	public static void iniciaJogo(){
-    		Board jogo = new Board();
-    		jogo.initGame();
-    	}
-    	
+
 
 	    public  void inicia() throws Exception {
 	        System.out.println("Server is running...");
@@ -63,25 +60,10 @@ import java.util.concurrent.Executors;
 	        DataOutputStream out; 
 	        
 
-	        /**
-	         * Constructs a handler thread, squirreling away the socket. All the interesting
-	         * work is done in the run method. Remember the constructor is called from the
-	         * server's main method, so this has to be as short as possible.
-	         */
 	        public Handler(Socket socket) {
 	            this.socket = socket;
 	        }
 
-	        
-	        
-	        
-	        
-	        /**
-	         * Services this thread's client by repeatedly requesting a screen name until a
-	         * unique one has been submitted, then acknowledges the name and registers the
-	         * output stream for the client in a global set, then repeatedly gets inputs and
-	         * broadcasts them.
-	         */
 	        public void run() {
 	            try {
 	            	System.out.println("Aqui");
@@ -99,7 +81,7 @@ import java.util.concurrent.Executors;
 	                
 	                int prontos=0;
 	                
-	                iniciaJogo();
+	                //iniciaJogo();
 	                
 	                while(prontos<jogadores){
 	                	
@@ -122,11 +104,6 @@ import java.util.concurrent.Executors;
 	                	System.out.println(playerName+" " + posicao);
 	                	out.writeUTF(playerName+" " + posicao);
 	                }
-
-	                // Now that a successful name has been chosen, add the socket's print writer
-	                // to the set of all writers so this client can receive broadcast messages.
-	                // But BEFORE THAT, let everyone else know that the new person has joined!
-	                
 
 
 	            } catch (Exception e) {

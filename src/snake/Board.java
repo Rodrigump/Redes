@@ -9,7 +9,6 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,13 +25,13 @@ public class Board extends JPanel implements ActionListener {
     private final int RAND_POS = 29;
     private final int DELAY = 140;
 
-    public static int NPLAYERS = 2;
+    public  int NPLAYERS;
     
     private final Map<String, Snake> snakeMap = new HashMap<String, Snake>();
     
 
 
-    static int yInit = 0;
+    private int yInit = 0;
     private int apple_x;
     private int apple_y;
 
@@ -52,7 +51,7 @@ public class Board extends JPanel implements ActionListener {
        
         setPreferredSize(new Dimension(B_WIDTH, B_HEIGHT));
         loadImages();
-        //initGame();
+        initGame();
     }
 
     private void loadImages() {
@@ -271,14 +270,5 @@ public class Board extends JPanel implements ActionListener {
     	
     }
 
-//    private class TAdapter extends KeyAdapter {
-//
-//        @Override
-//        public void keyPressed(KeyEvent e) {
-//        	
-//            int key = e.getKeyCode();
-//           // System.out.println(key);
-//            atualizaPosicao(key,"Snake1");
-//        }
-//    }
+
 }

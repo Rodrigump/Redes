@@ -91,7 +91,7 @@ public class MainScreen {
 					
 					
 					JPanel board = new Board();
-					Board.NPLAYERS = N_PLAYERS;
+					
 					
 					Servidor serv = new Servidor();
 					serv.start();

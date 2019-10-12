@@ -125,13 +125,14 @@ class Input extends Thread{
             System.out.println("conectado");
             in = new DataInputStream(socket.getInputStream());
             out = new DataOutputStream(socket.getOutputStream());
-            
-            
             Board jogo = new Board();
+           
+            
             String snake = (String)in.readUTF();
             playerName = snake;
             System.out.println("Cliente recebeu "+ snake);
             int players = in.readInt();
+            jogo.NPLAYERS =players;
             int prontos=0;
            
             int r = JOptionPane.showConfirmDialog(null, "Pronto?");
