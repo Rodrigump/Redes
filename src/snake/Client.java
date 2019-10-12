@@ -119,41 +119,41 @@ class Input extends Thread{
 
             String snake = (String)in.readUTF();
             playerName = snake;
-            
+            System.out.println("Cliente recebeu "+ snake);
+            int totalPlayers = in.readInt();
+            System.out.println(totalPlayers);
             
             int r = JOptionPane.showConfirmDialog(null, "Iniciar o jogo?");
             
             if (r == JOptionPane.YES_OPTION) {
             	out.writeInt(1);
                 
-            	Server.jogo.initGame();
-            } else{
-            	r = JOptionPane.showConfirmDialog(null, "E agora?");
-            }
+            	
+            } 
             
             
-            int podeComecar = in.readInt();
-            int NPLAYERS = in.readInt();
-            System.out.println("Cliente recebeu "+ snake);
+            int podeComecar=0;
+            int NPLAYERS=0;
             
             
             
-            while(podeComecar<= NPLAYERS){
-            	podeComecar = in.readInt();
-                NPLAYERS = in.readInt();
+            System.out.println("fora" +podeComecar + " "+ NPLAYERS);
+            while(podeComecar<= NPLAYERS && NPLAYERS == totalPlayers){
             	System.out.println("dentro" +podeComecar + " "+ NPLAYERS);
-            	System.out.print("");
-            	if(Server.NPLAYERS==Server.podeComecar) {
-            		System.out.println("A");
-                	startsGame();
-                	break;
-                }else{
-                	//continue;
-                }
+                podeComecar = in.readInt();
+                NPLAYERS = in.readInt();
+
             }
             
             
-           
+         if(NPLAYERS==podeComecar && NPLAYERS == totalPlayers) {
+    		System.out.println("A");
+    		
+        	startsGame();
+         }
+            
+            
+           System.out.println("AAAA");
 
             Input i = new Input(in);
             Teclado t = new Teclado(playerName);

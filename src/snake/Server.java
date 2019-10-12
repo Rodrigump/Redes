@@ -67,12 +67,20 @@ import javax.swing.JOptionPane;
 	                
 	                //System.out.println(playerName);
 	                out.writeUTF(playerName);
+	                out.writeInt(MainScreen.N_PLAYERS);
 	               // Board.snakeMap.put(playerName, new Snake());
-	                while(podeComecar<NPLAYERS){
+	                
+	               
+	                
+	                
+	                while(podeComecar<=NPLAYERS && NPLAYERS <= MainScreen.N_PLAYERS){
 	                	podeComecar +=in.readInt();
 	                	out.writeInt(podeComecar);
 	                	out.writeInt(NPLAYERS);
 	                }
+	                out.flush();
+	                
+	                jogo.initGame();
 	                
 	                while (true) {                	
 	                	playerName = in.readUTF();
