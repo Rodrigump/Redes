@@ -26,13 +26,13 @@ public class Board extends JPanel implements ActionListener {
     private final int RAND_POS = 29;
     private final int DELAY = 140;
 
-    public static int NPLAYERS = 0;
+    public static int NPLAYERS = 2;
     
-    public static Map<String, Snake> snakeMap = new HashMap<String, Snake>();
+    private final Map<String, Snake> snakeMap = new HashMap<String, Snake>();
     
 
 
-     int yInit = 0;
+    static int yInit = 0;
     private int apple_x;
     private int apple_y;
 
@@ -52,7 +52,7 @@ public class Board extends JPanel implements ActionListener {
        
         setPreferredSize(new Dimension(B_WIDTH, B_HEIGHT));
         loadImages();
-        
+        initGame();
     }
 
     private void loadImages() {
@@ -65,10 +65,8 @@ public class Board extends JPanel implements ActionListener {
     }
 
     private void locate(String snake) {
-    	
     	snakeMap.get(snake).dots = 3;
-    	this.yInit += 50;
-    	
+    	yInit += 50;
         for (int z = 0; z < snakeMap.get(snake).dots; z++) {
         	snakeMap.get(snake).x[z] = 50 - z * 10;
         	snakeMap.get(snake).y[z] = yInit;
@@ -76,7 +74,7 @@ public class Board extends JPanel implements ActionListener {
     }
     
     
-    public void initGame() {
+    private void initGame() {
     	
     	
         for(int j = 1; j<NPLAYERS+1;j++) {
@@ -142,13 +140,11 @@ public class Board extends JPanel implements ActionListener {
         g.setColor(Color.white);
         g.setFont(small);
         g.drawString(msg, (B_WIDTH - metr.stringWidth(msg)) / 2, B_HEIGHT / 2);
-        int pos = (B_HEIGHT / 2)+20;
         for(int j = 1; j<NPLAYERS+1;j++) {
         	String s = "Snake"+j;
         	String pontos = Integer.toString(snakeMap.get(s).score);
         	pontos = s + " "+ pontos;
-        	
-        	g.drawString(pontos, ((B_WIDTH - metr.stringWidth(msg)) / 2), pos);
+        	 g.drawString(pontos, ((B_WIDTH - metr.stringWidth(msg)) / 2), (B_HEIGHT / 2)+20);
         }
         
     }
@@ -247,7 +243,6 @@ public class Board extends JPanel implements ActionListener {
     }
     
     public void atualizaPosicao(int key, String s) {
-    	System.out.println("Atualiza "+s+" " +key);
     	Snake snake = snakeMap.get(s);
     	if ((key == KeyEvent.VK_LEFT) && (!snake.rightDirection)) {
         	

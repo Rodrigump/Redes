@@ -1,16 +1,17 @@
 package snake;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Socket;
-
-import javax.swing.JOptionPane;
-
+import java.util.Scanner;
+import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 
 
 //import snake.Board.TAdapter;
@@ -34,11 +35,11 @@ public class Client {
 
     }
 
-    private static void startsGame() {
+    private static void startsGame(JPanel jogo) {
 		
 		MainScreen.ex.getContentPane().removeAll();
         MainScreen.ex.getContentPane().invalidate();
-        MainScreen.ex.getContentPane().add(Server.jogo);
+        MainScreen.ex.getContentPane().add(jogo);
         MainScreen.ex.getContentPane().revalidate();
        // jogo.requestFocusInWindow();
         MainScreen.ex.setVisible(true);
@@ -47,11 +48,11 @@ public class Client {
 
     
   class Teclado extends Thread{
-	
+	Board jogo;
 	String playerN;
 	
-	Teclado(String playerN){
-		
+	Teclado(Board jogo,String playerN){
+		this.jogo = jogo;
 		this.playerN = playerN;
 	}
 	
@@ -65,7 +66,7 @@ public class Client {
 	           try {
 	        	   out.writeUTF(playerName);
 	        	   out.writeInt(key);
-	        	   //Server.jogo.atualizaPosicao(key,playerName);
+	        	   jogo.atualizaPosicao(key,playerName);
 
 	           } catch (Exception err) {
 	        	   System.out.println(err.getMessage());
@@ -76,7 +77,7 @@ public class Client {
 	
 	public void run() {
 		
-		Server.jogo.addKeyListener(new TAdapter());
+		jogo.addKeyListener(new TAdapter());
 		
 	}
 	
@@ -85,10 +86,10 @@ public class Client {
 
 class Input extends Thread{
 	DataInputStream in;
-	//Board jogo;
-	Input(DataInputStream in){
+	Board jogo;
+	Input(DataInputStream in,Board jogo){
 		this.in = in;
-		
+		this.jogo = jogo;
 	}
 	
 	public void run() {
@@ -100,9 +101,8 @@ class Input extends Thread{
 	        	String[] temp = new String[2];
 	        	temp = leitura.split(" ");
 	        	posicao = Integer.parseInt(temp[1]);
-	        	System.out.println("Recebeu "+temp[0]+" "+posicao+" Player = "+playerName);
-	        	if(!temp[0].equals(playerName))	Server.jogo.atualizaPosicao(posicao,temp[0]);
-	        	//System.out.println("CC"+posicao);
+	        	if(!temp[0].equals(playerName))	jogo.atualizaPosicao(posicao,temp[0]);
+	        	System.out.println("CC"+posicao);
 	    		}catch(Exception err) {
 	    			System.out.println(err.getMessage());
 	    		}
@@ -120,51 +120,31 @@ class Input extends Thread{
             in = new DataInputStream(socket.getInputStream());
             out = new DataOutputStream(socket.getOutputStream());
 
-            InputStream inp = null;
-            BufferedReader brinp = null;
-            DataOutputStream out = null;
-            try {
-                inp = socket.getInputStream();
-                brinp = new BufferedReader(new InputStreamReader(inp));
-                out = new DataOutputStream(socket.getOutputStream());
-            } catch (IOException e) {
-                return;
-            }
-            
-            
-            
+            Board jogo = new Board();
             String snake = (String)in.readUTF();
             playerName = snake;
             System.out.println("Cliente recebeu "+ snake);
-            int totalPlayers = in.readInt();
-            System.out.println(totalPlayers);
             
-            int r = JOptionPane.showConfirmDialog(null, "Iniciar o jogo?");
-            
-            if (r == JOptionPane.YES_OPTION) {
-            	out.writeInt(1);
-            	
-            } 
-            System.out.println("CP"+in.readInt());
-            
-            int podeComecar=0;
-
-            while(podeComecar <totalPlayers){
-             podeComecar = in.readInt();
-            	
+            if(Server.NPLAYERS==MainScreen.N_PLAYERS) {
+            	startsGame(jogo);
             }
             
-
+            while(Server.NPLAYERS<=MainScreen.N_PLAYERS){
+            	
+            	if(Server.NPLAYERS==MainScreen.N_PLAYERS) {
+        
+                	startsGame(jogo);
+                	break;
+                }else{
+                	continue;
+                }
+            }
             
-            //socket.setSoTimeout(0);
-         
-    		System.out.println("A");
-    		Server.jogo.initGame();
-        	startsGame();
-         
+            
+           
 
-            Input i = new Input(in);
-            Teclado t = new Teclado(playerName);
+            Input i = new Input(in,jogo);
+            Teclado t = new Teclado(jogo,playerName);
             
             i.start();
             t.start();

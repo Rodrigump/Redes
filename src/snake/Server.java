@@ -13,8 +13,6 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import javax.swing.JOptionPane;
-
 
 	public class Server {
 
@@ -22,29 +20,34 @@ import javax.swing.JOptionPane;
 		public static int jogadores;
 		public static int NPLAYERS = 0;
 		public static String ipServer;
-		public static int podeComecar = 0;
+    	public static Map<String, Snake> snakeMap = new HashMap<String, Snake>();
 		
-    	//public static Map<String, Snake> snakeMap = new HashMap<String, Snake>();
-		public static Board jogo = new Board();
     	
-		
     	Server(int jogadores){
     		Server.jogadores = jogadores;
     	}
     	
 
 	    public  void inicia() throws Exception {
-	        System.out.println("Servidor está rodando...");
+	        System.out.println("Server is running...");
 	         ExecutorService pool = Executors.newFixedThreadPool(500);
-	        try (ServerSocket listener = new ServerSocket(59001)) {	        	
-	            while (true) {
+	        try (ServerSocket listener = new ServerSocket(59001)) {
+	        	//ipServer = listener.getInetAddress().toString();
+	            while (NPLAYERS<=jogadores) {
+	            	
+	            	
 	                pool.execute(new Handler(listener.accept()));
 	                NPLAYERS += 1;
-	            }            
-	        }	        
+	                System.out.println(NPLAYERS);
+	                //System.out.println(jogadores);
+	            }
+	            System.out.println("aqui");
+	        }
 	    }
 
-
+	    /**
+	     * The client handler task.
+	     */
 	    private static class Handler implements Runnable {
 	    	
 	        private Socket socket;
@@ -52,41 +55,53 @@ import javax.swing.JOptionPane;
 //	        private PrintWriter out;
 	        DataInputStream in;
 	        DataOutputStream out; 
+	        
 
+	        /**
+	         * Constructs a handler thread, squirreling away the socket. All the interesting
+	         * work is done in the run method. Remember the constructor is called from the
+	         * server's main method, so this has to be as short as possible.
+	         */
 	        public Handler(Socket socket) {
 	            this.socket = socket;
 	        }
 
+	        
+	        
+	        
+	        
+	        /**
+	         * Services this thread's client by repeatedly requesting a screen name until a
+	         * unique one has been submitted, then acknowledges the name and registers the
+	         * output stream for the client in a global set, then repeatedly gets inputs and
+	         * broadcasts them.
+	         */
 	        public void run() {
 	            try {
-
+	            	System.out.println("Aqui");
 	            	in = new DataInputStream(socket.getInputStream());
 	                out = new DataOutputStream(socket.getOutputStream());
 	                int posicao;
 	                String playerName = "Snake" + NPLAYERS;
-	                
-	                //System.out.println(playerName);
+	                // Keep requesting a new movement until we get a unique one.
+	                System.out.println(playerName);
 	                out.writeUTF(playerName);
-	                out.writeInt(MainScreen.N_PLAYERS);
-	               // Board.snakeMap.put(playerName, new Snake());
-
-	                Server.podeComecar =  Server.podeComecar +  in.readInt();
-	                out.writeInt(Server.podeComecar);
+	                snakeMap.put(playerName, new Snake());
+	                
+	                
+	                while (true) {
 	                	
-	                
-	              
-	                	                	                 	
-	                
-	               
-	                
-	                
-	                
-	                while (true) {                	
 	                	playerName = in.readUTF();
 	                	posicao = in.readInt();
-	                	jogo.atualizaPosicao(posicao, playerName);
+	                	System.out.println(playerName+" " + posicao);
 	                	out.writeUTF(playerName+" " + posicao);
 	                }
+
+	                // Now that a successful name has been chosen, add the socket's print writer
+	                // to the set of all writers so this client can receive broadcast messages.
+	                // But BEFORE THAT, let everyone else know that the new person has joined!
+	                
+
 
 	            } catch (Exception e) {
 	                System.out.println(e);
