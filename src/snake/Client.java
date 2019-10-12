@@ -149,14 +149,16 @@ class Input extends Thread{
 
             int podeComecar=0;
 
-            
-            System.out.println("fora" +podeComecar );
-            while(podeComecar == 0){
-            	System.out.println("dentro" +podeComecar);
-            	out.writeInt(0);
-                podeComecar = brinp.read();
-                System.out.println("p"+podeComecar);
+            while(true){
+            	socket.wait(10);
+            	podeComecar = in.readInt();            	        
+            	if(podeComecar == 1){
+            		break;
+            	}
+            	
             }
+            
+
             
             //socket.setSoTimeout(0);
          

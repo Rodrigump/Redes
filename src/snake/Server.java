@@ -69,21 +69,23 @@ import javax.swing.JOptionPane;
 	                out.writeUTF(playerName);
 	                out.writeInt(MainScreen.N_PLAYERS);
 	               // Board.snakeMap.put(playerName, new Snake());
+
 	                
-	               
-	                
-	                
-	                while(podeComecar<MainScreen.N_PLAYERS){
-	                	podeComecar +=in.readInt();
-	                	System.out.println("podeC"+podeComecar);
-	                	int x = in.readInt();
-	                	out.writeInt(x);
+	                podeComecar +=in.readInt();
 	                	
-	                }
+
+	                while( podeComecar<MainScreen.N_PLAYERS ){
+	                	out.write(0);
+	                }	
+	                out.write(1);
+	                
+	          
+	                
+	                
 	                System.out.println("SS");
 
 	                	 
-	                	out.write(1);
+	                	
 
 	                
 	               
