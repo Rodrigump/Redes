@@ -131,12 +131,19 @@ class Input extends Thread{
             
             String snake = (String)in.readUTF();
             playerName = snake;
+            int podeComecar = in.readInt();
+            int NPLAYERS = in.readInt();
             System.out.println("Cliente recebeu "+ snake);
             
+            System.out.println(Server.podeComecar + " "+ Server.NPLAYERS);
             
-            while(Server.podeComecar<= Server.NPLAYERS){
+            while(podeComecar<= NPLAYERS){
+            	podeComecar = in.readInt();
+                NPLAYERS = in.readInt();
+            	System.out.println("dentro" +Server.podeComecar + " "+ Server.NPLAYERS);
             	System.out.print("");
             	if(Server.NPLAYERS==Server.podeComecar) {
+            		System.out.println("A");
                 	startsGame();
                 	break;
                 }else{

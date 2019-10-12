@@ -64,10 +64,15 @@ import javax.swing.JOptionPane;
 	                out = new DataOutputStream(socket.getOutputStream());
 	                int posicao;
 	                String playerName = "Snake" + NPLAYERS;
-	                // Keep requesting a new movement until we get a unique one.
+	                
 	                //System.out.println(playerName);
 	                out.writeUTF(playerName);
 	               // Board.snakeMap.put(playerName, new Snake());
+	                while(podeComecar<NPLAYERS){
+	                	out.writeInt(podeComecar);
+	                	out.writeInt(NPLAYERS);
+	                }
+	                
 	                while (true) {                	
 	                	playerName = in.readUTF();
 	                	posicao = in.readInt();
