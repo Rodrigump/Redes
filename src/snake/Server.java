@@ -76,10 +76,9 @@ import javax.swing.JOptionPane;
 	                while(podeComecar<MainScreen.N_PLAYERS){
 	                	podeComecar +=in.readInt();
 	                	System.out.println("podeC"+podeComecar);
-	                	out.writeInt(podeComecar);
-	                	out.writeInt(NPLAYERS);
+
 	                }
-	                
+	                out.writeInt(1);
 	                
 	                
 	                

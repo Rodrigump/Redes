@@ -135,21 +135,18 @@ class Input extends Thread{
 
             
             System.out.println("fora" +podeComecar );
-            while(podeComecar< totalPlayers){
+            while(podeComecar != 1){
             	System.out.println("dentro" +podeComecar);
                 podeComecar = in.readInt();
                
             }
             
             
-         if(podeComecar == totalPlayers) {
+         
     		System.out.println("A");
     		Server.jogo.initGame();
         	startsGame();
-         }
-            
-            
-           System.out.println("AAAA");
+         
 
             Input i = new Input(in);
             Teclado t = new Teclado(playerName);
