@@ -153,12 +153,12 @@ class Input extends Thread{
             System.out.println("fora" +podeComecar );
             while(podeComecar == 0){
             	System.out.println("dentro" +podeComecar);
-            	
-                //podeComecar = in.readInt();
+            	out.writeInt(0);
                 podeComecar = brinp.read();
-                System.out.println(podeComecar);
+                System.out.println("p"+podeComecar);
             }
             
+            //socket.setSoTimeout(0);
          
     		System.out.println("A");
     		Server.jogo.initGame();
