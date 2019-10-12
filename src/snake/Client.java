@@ -132,14 +132,18 @@ class Input extends Thread{
             int r = JOptionPane.showConfirmDialog(null, "Pronto?");
             if (r == JOptionPane.YES_OPTION) {
             	out.writeInt(1);
+            	in.readInt();
             }
-            
-            while(prontos-1<players){
+            System.out.println("Prontos"+prontos+" players "+players);
+            while(prontos<players){
             	int inp = in.readInt();	 
             	
             	prontos+= inp;
-            	System.out.println(prontos);
+            	System.out.println("prontos"+prontos);
             }
+            System.out.println("Prontos"+prontos+" players "+players);
+            System.out.println("AA");
+            
             
             startsGame(jogo);
             

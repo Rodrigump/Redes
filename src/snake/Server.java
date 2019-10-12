@@ -87,15 +87,17 @@ import java.util.concurrent.Executors;
 	                System.out.println(playerName);
 	                out.writeUTF(playerName);
 	                //snakeMap.put(playerName, new Snake());
-	                out.writeInt(NPLAYERS);
+	                out.writeInt(jogadores);
 	                
 	                int prontos=0;
 	                
 	                
-	                while(prontos<NPLAYERS){
-	                	int inp = in.readInt();	                	
+	                while(prontos<jogadores){
+	                	
+	                	int inp = in.readInt();	
+	                	out.writeInt(1);
 	                	prontos+= inp;
-	                	out.writeInt(inp);
+	                	out.writeInt(prontos);
 	                }
 	                
 	                
