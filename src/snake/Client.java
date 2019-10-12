@@ -1,9 +1,12 @@
 package snake;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.Socket;
 
 import javax.swing.JOptionPane;
@@ -117,6 +120,19 @@ class Input extends Thread{
             in = new DataInputStream(socket.getInputStream());
             out = new DataOutputStream(socket.getOutputStream());
 
+            InputStream inp = null;
+            BufferedReader brinp = null;
+            DataOutputStream out = null;
+            try {
+                inp = socket.getInputStream();
+                brinp = new BufferedReader(new InputStreamReader(inp));
+                out = new DataOutputStream(socket.getOutputStream());
+            } catch (IOException e) {
+                return;
+            }
+            
+            
+            
             String snake = (String)in.readUTF();
             playerName = snake;
             System.out.println("Cliente recebeu "+ snake);
@@ -135,12 +151,13 @@ class Input extends Thread{
 
             
             System.out.println("fora" +podeComecar );
-            while(podeComecar != 1){
+            while(podeComecar == 0){
             	System.out.println("dentro" +podeComecar);
-                podeComecar = in.readInt();
-               
+            	
+                //podeComecar = in.readInt();
+                podeComecar = brinp.read();
+                System.out.println(podeComecar);
             }
-            
             
          
     		System.out.println("A");
