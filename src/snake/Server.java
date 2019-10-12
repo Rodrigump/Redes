@@ -70,17 +70,9 @@ import javax.swing.JOptionPane;
 	                out.writeInt(MainScreen.N_PLAYERS);
 	               // Board.snakeMap.put(playerName, new Snake());
 
-	              
-	                
+	                Server.podeComecar =  Server.podeComecar +  in.readInt();
+	                out.writeInt(Server.podeComecar);
 	                	
-	                
-	                while( podeComecar<=MainScreen.N_PLAYERS ){
-	                	podeComecar += in.readInt();
-	                	
-	                	out.writeInt(podeComecar);
-	                	
-	                	System.out.println("PODE "+podeComecar);
-	                }
 	                
 	              
 	                	                	                 	

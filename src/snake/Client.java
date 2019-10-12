@@ -145,7 +145,8 @@ class Input extends Thread{
             	out.writeInt(1);
             	
             } 
-
+            System.out.println("CP"+in.readInt());
+            
             int podeComecar=0;
 
             while(podeComecar <totalPlayers){
