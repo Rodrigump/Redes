@@ -140,11 +140,13 @@ public class Board extends JPanel implements ActionListener {
         g.setColor(Color.white);
         g.setFont(small);
         g.drawString(msg, (B_WIDTH - metr.stringWidth(msg)) / 2, B_HEIGHT / 2);
+        int pos = (B_HEIGHT / 2)+20;
         for(int j = 1; j<NPLAYERS+1;j++) {
         	String s = "Snake"+j;
         	String pontos = Integer.toString(snakeMap.get(s).score);
         	pontos = s + " "+ pontos;
-        	 g.drawString(pontos, ((B_WIDTH - metr.stringWidth(msg)) / 2), (B_HEIGHT / 2)+20);
+        	
+        	g.drawString(pontos, ((B_WIDTH - metr.stringWidth(msg)) / 2), pos);
         }
         
     }
@@ -243,6 +245,7 @@ public class Board extends JPanel implements ActionListener {
     }
     
     public void atualizaPosicao(int key, String s) {
+    	System.out.println("Atualiza "+s+" " +key);
     	Snake snake = snakeMap.get(s);
     	if ((key == KeyEvent.VK_LEFT) && (!snake.rightDirection)) {
         	

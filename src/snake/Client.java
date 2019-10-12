@@ -101,8 +101,9 @@ class Input extends Thread{
 	        	String[] temp = new String[2];
 	        	temp = leitura.split(" ");
 	        	posicao = Integer.parseInt(temp[1]);
+	        	System.out.println("Recebeu "+temp[0]+" "+posicao+" Player = "+playerName);
 	        	if(!temp[0].equals(playerName))	jogo.atualizaPosicao(posicao,temp[0]);
-	        	System.out.println("CC"+posicao);
+	        	//System.out.println("CC"+posicao);
 	    		}catch(Exception err) {
 	    			System.out.println(err.getMessage());
 	    		}
@@ -125,14 +126,13 @@ class Input extends Thread{
             playerName = snake;
             System.out.println("Cliente recebeu "+ snake);
             
-            if(Server.NPLAYERS==MainScreen.N_PLAYERS) {
-            	startsGame(jogo);
-            }
+            
             
             while(Server.NPLAYERS<=MainScreen.N_PLAYERS){
-            	
+            	System.out.println(Server.NPLAYERS);
+            	System.out.println(MainScreen.N_PLAYERS);
             	if(Server.NPLAYERS==MainScreen.N_PLAYERS) {
-        
+            		
                 	startsGame(jogo);
                 	break;
                 }else{

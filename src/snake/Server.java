@@ -29,7 +29,7 @@ import java.util.concurrent.Executors;
     	
 
 	    public  void inicia() throws Exception {
-	        System.out.println("Server is running...");
+	        System.out.println("Servidor está rodando...");
 	         ExecutorService pool = Executors.newFixedThreadPool(500);
 	        try (ServerSocket listener = new ServerSocket(59001)) {
 	        	//ipServer = listener.getInetAddress().toString();
@@ -38,16 +38,14 @@ import java.util.concurrent.Executors;
 	            	
 	                pool.execute(new Handler(listener.accept()));
 	                NPLAYERS += 1;
-	                System.out.println(NPLAYERS);
+	                //System.out.println(NPLAYERS);
 	                //System.out.println(jogadores);
 	            }
-	            System.out.println("aqui");
+	          
 	        }
 	    }
 
-	    /**
-	     * The client handler task.
-	     */
+
 	    private static class Handler implements Runnable {
 	    	
 	        private Socket socket;
@@ -57,11 +55,7 @@ import java.util.concurrent.Executors;
 	        DataOutputStream out; 
 	        
 
-	        /**
-	         * Constructs a handler thread, squirreling away the socket. All the interesting
-	         * work is done in the run method. Remember the constructor is called from the
-	         * server's main method, so this has to be as short as possible.
-	         */
+
 	        public Handler(Socket socket) {
 	            this.socket = socket;
 	        }
@@ -70,21 +64,16 @@ import java.util.concurrent.Executors;
 	        
 	        
 	        
-	        /**
-	         * Services this thread's client by repeatedly requesting a screen name until a
-	         * unique one has been submitted, then acknowledges the name and registers the
-	         * output stream for the client in a global set, then repeatedly gets inputs and
-	         * broadcasts them.
-	         */
+
 	        public void run() {
 	            try {
-	            	System.out.println("Aqui");
+	            	
 	            	in = new DataInputStream(socket.getInputStream());
 	                out = new DataOutputStream(socket.getOutputStream());
 	                int posicao;
 	                String playerName = "Snake" + NPLAYERS;
 	                // Keep requesting a new movement until we get a unique one.
-	                System.out.println(playerName);
+	                //System.out.println(playerName);
 	                out.writeUTF(playerName);
 	                snakeMap.put(playerName, new Snake());
 	                
@@ -93,13 +82,11 @@ import java.util.concurrent.Executors;
 	                	
 	                	playerName = in.readUTF();
 	                	posicao = in.readInt();
-	                	System.out.println(playerName+" " + posicao);
+	                	//System.out.println(playerName+" " + posicao);
 	                	out.writeUTF(playerName+" " + posicao);
 	                }
 
-	                // Now that a successful name has been chosen, add the socket's print writer
-	                // to the set of all writers so this client can receive broadcast messages.
-	                // But BEFORE THAT, let everyone else know that the new person has joined!
+
 	                
 
 
