@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
+
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
@@ -124,21 +126,24 @@ class Input extends Thread{
             String snake = (String)in.readUTF();
             playerName = snake;
             System.out.println("Cliente recebeu "+ snake);
-            
-            if(Server.NPLAYERS==MainScreen.N_PLAYERS) {
-            	startsGame(jogo);
+            int players = in.readInt();
+            int prontos=0;
+           
+            int r = JOptionPane.showConfirmDialog(null, "Pronto?");
+            if (r == JOptionPane.YES_OPTION) {
+            	out.writeInt(1);
             }
             
-            while(Server.NPLAYERS<=MainScreen.N_PLAYERS){
+            while(prontos-1<players){
+            	int inp = in.readInt();	 
             	
-            	if(Server.NPLAYERS==MainScreen.N_PLAYERS) {
-        
-                	startsGame(jogo);
-                	break;
-                }else{
-                	continue;
-                }
+            	prontos+= inp;
+            	System.out.println(prontos);
             }
+            
+            startsGame(jogo);
+            
+         
             
             
            

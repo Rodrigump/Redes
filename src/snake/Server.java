@@ -86,7 +86,18 @@ import java.util.concurrent.Executors;
 	                // Keep requesting a new movement until we get a unique one.
 	                System.out.println(playerName);
 	                out.writeUTF(playerName);
-	                snakeMap.put(playerName, new Snake());
+	                //snakeMap.put(playerName, new Snake());
+	                out.writeInt(NPLAYERS);
+	                
+	                int prontos=0;
+	                
+	                
+	                while(prontos<NPLAYERS){
+	                	int inp = in.readInt();	                	
+	                	prontos+= inp;
+	                	out.writeInt(inp);
+	                }
+	                
 	                
 	                
 	                while (true) {
