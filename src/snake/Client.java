@@ -1,23 +1,16 @@
 package snake;
 
-import java.awt.List;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
 
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.KeyStroke;
 
 
 //import snake.Board.TAdapter;
@@ -31,24 +24,26 @@ public class Client {
     //PrintWriter out;
    String playerName;
     MainScreen screen;
-    
+    public JFrame ex;
 
-    public Client(String serverAddress) {
-    	
+    public Client(String serverAddress, JFrame ex) {
+    	this.ex = ex;
         this.serverAddress = serverAddress;
        // MainScreen.ex.pack();
 
 
     }
 
-    private static void startsGame(JPanel jogo) {
+    private static void startsGame(JPanel jogo,JFrame ex) {
 		
-		MainScreen.ex.getContentPane().removeAll();
-        MainScreen.ex.getContentPane().invalidate();
-        MainScreen.ex.getContentPane().add(jogo);
-        MainScreen.ex.getContentPane().revalidate();
-       // jogo.requestFocusInWindow();
-        MainScreen.ex.setVisible(true);
+		ex.getContentPane().removeAll();
+        ex.getContentPane().invalidate();
+        ex.getContentPane().add(jogo);
+        ex.getContentPane().revalidate();
+      
+       
+        //jogo.requestFocusInWindow();
+        ex.setVisible(true);
 		
 	}
 
@@ -102,6 +97,7 @@ class Input extends Thread{
 	int posicao;
 		while(true) {
     		try {
+    			
     			String leitura;
 	        	leitura = in.readUTF();
 	        	String[] temp = new String[2];
@@ -125,14 +121,14 @@ class Input extends Thread{
             System.out.println("conectado");
             in = new DataInputStream(socket.getInputStream());
             out = new DataOutputStream(socket.getOutputStream());
-            Board jogo = new Board();
+            
            
             
             String snake = (String)in.readUTF();
             playerName = snake;
             System.out.println("Cliente recebeu "+ snake);
             int players = in.readInt();
-            jogo.NPLAYERS =players;
+            
             int prontos=0;
            
             int r = JOptionPane.showConfirmDialog(null, "Pronto?");
@@ -141,6 +137,10 @@ class Input extends Thread{
             	out.writeInt(1);
             }
             System.out.println("Prontos"+prontos+" players "+players);
+            
+            
+            
+            
             while(prontos<players){
             	int inp = in.readInt();	 
             	
@@ -150,8 +150,9 @@ class Input extends Thread{
             System.out.println("Prontos"+prontos+" players "+players);
             System.out.println("AA");
             
-            
-            startsGame(jogo);
+            Board jogo = new Board(players);
+
+            startsGame(jogo,this.ex);
             
          
             
@@ -170,10 +171,7 @@ class Input extends Thread{
         	System.out.println(err.getMessage());
         }
     }
-    
-    private void atualizaPosicao(int key) {
-    	
-    }
+
 
 
 }

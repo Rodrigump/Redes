@@ -90,7 +90,7 @@ public class MainScreen {
 					N_PLAYERS = Integer.parseInt(JOptionPane.showInputDialog("Qual � o n�mero de jogadores?"));
 					
 					
-					JPanel board = new Board();
+					//JPanel board = new Board();
 					
 					
 					Servidor serv = new Servidor();
@@ -107,7 +107,7 @@ public class MainScreen {
 					}
 					JOptionPane.showMessageDialog(null, "Informar o ip: " + ipS[1]);
 					System.out.println(ipS[1]);
-					Client cliente = new Client(ipS[1]);
+					Client cliente = new Client(ipS[1],ex);
 					cliente.playerName = name;
 					try {
 						cliente.run();	
@@ -133,7 +133,7 @@ public class MainScreen {
 					String name = JOptionPane.showInputDialog("Qual é seu nome?");
 					String ip = JOptionPane.showInputDialog("Qual é o ip do servidor?");
 					//System.out.println(ip);
-					Client cliente = new Client(ip);
+					Client cliente = new Client(ip,ex);
 					cliente.playerName = name;
 					try {
 						cliente.run();	

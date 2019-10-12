@@ -25,7 +25,7 @@ public class Board extends JPanel implements ActionListener {
     private final int RAND_POS = 29;
     private final int DELAY = 140;
 
-    public  int NPLAYERS;
+    private  int NPLAYERS;
     
     private final Map<String, Snake> snakeMap = new HashMap<String, Snake>();
     
@@ -42,8 +42,8 @@ public class Board extends JPanel implements ActionListener {
     private Image apple;
 
 
-    public Board() {
-
+    public Board(int players) {
+    	this.NPLAYERS = players;
        // addKeyListener(new TAdapter());
         grabFocus();
         setBackground(Color.black);
