@@ -73,8 +73,11 @@ public class Client {
 	            //System.out.println(key);
 	           try {
 	        	   String info = playerName+" " +Integer.toString(key);
+	        	  
 	        	   
 	        	   outP.print(info);
+	        	   out.writeUTF(info);
+	        	   System.out.println("imprimiu");
 	        	   //out.writeUTF(info);
 	        	   //out.writeInt(key);
 	        	   //out.flush();

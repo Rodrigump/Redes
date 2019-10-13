@@ -98,37 +98,37 @@ import java.util.concurrent.Executors;
 	                
 	                int prontos=0;
 	                
-	                //iniciaJogo();
-	                
-	                while(prontos<jogadores){
+
 	                	
-	                	int inp = in.readInt();	
+	                	int inp = in.readInt();
 	                	for(Handler s: sockets){
 	                		if(!playerName.equals(s.name)) s.out.writeInt(1);
 		            	}
 	                	prontos+= inp;
-	                	//out.writeInt(prontos);
-	                }
-	                
+
 	                
 	                //System.out.println(in.read());
-	                
+	                System.out.println(in.available());
+	                	
+	                	
 	                String info;
 	                while (true) {
-	                	System.out.println("Q");
-	                	
-	                	info = inB.readLine();
-		               // playerName = in.readUTF();
-		                //System.out.println("playerName "+ playerName);
-		                System.out.println("Depois");
-		                //posicao = in.readInt();
-
-	                	System.out.println(playerName+" " + posicao);
-
-	                	for(Handler s: sockets){
-	                		
-	                		if(!playerName.equals(s.name)) s.out.writeUTF(playerName);
-		            	}
+	                	if(in.available()>0){
+		                	System.out.println("Q");
+		                	
+		                	//info = inB.readLine();
+			                playerName = in.readUTF();
+			                System.out.println("playerName "+ playerName);
+			                System.out.println("Depois");
+			                //posicao = in.readInt();
+	
+		                	System.out.println(playerName+" " + posicao);
+	
+		                	for(Handler s: sockets){
+		                		
+		                		if(!playerName.equals(s.name)) s.out.writeUTF(playerName);
+			            	}
+	                	}
 	                }
 
 
