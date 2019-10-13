@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -27,7 +28,7 @@ public class Client {
     DataOutputStream out;
     PrintWriter outP;
     BufferedReader inB;
-    List<Integer> appleLocation;
+    List<Integer> appleLocation = new ArrayList<Integer>();
  
     //PrintWriter out;
    String playerName;
@@ -37,7 +38,7 @@ public class Client {
     public Client(String serverAddress, JFrame ex,List<Integer> appleLocation) {
     	this.ex = ex;
         this.serverAddress = serverAddress;
-        this.appleLocation = appleLocation;
+        this.appleLocation.addAll(appleLocation);
        // MainScreen.ex.pack();
 
 
