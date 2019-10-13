@@ -23,7 +23,7 @@ import java.util.concurrent.Executors;
 		public static String ipServer;
     	//public static Map<String, Snake> snakeMap = new HashMap<String, Snake>();
     	private static ArrayList<DataOutputStream> out_stream = new ArrayList<DataOutputStream>();
-    	
+    	private static ArrayList<DataInputStream> in_stream = new ArrayList<DataInputStream>();
     	
     	Server(int jogadores){
     		Server.jogadores = jogadores;
@@ -70,8 +70,9 @@ import java.util.concurrent.Executors;
 	            	in = new DataInputStream(socket.getInputStream());
 	                out = new DataOutputStream(socket.getOutputStream());
 	                out_stream.add(out);
+	                in_stream.add(in);
 	                
-	                int posicao;
+	                int posicao = 0;
 	                String playerName = "Snake" + NPLAYERS;
 	                // Keep requesting a new movement until we get a unique one.
 	                System.out.println(playerName);
@@ -90,20 +91,24 @@ import java.util.concurrent.Executors;
 		            		o.writeInt(1);
 		            	}
 	                	prontos+= inp;
-	                	out.writeInt(prontos);
+	                	//out.writeInt(prontos);
 	                }
 	                
-	                
+	                System.out.println("A"+in.read());
 	                
 	                
 	                
 	                while (true) {
 	                	System.out.println("AA");
-	                	playerName = in.readUTF();
-	                	posicao = in.readInt();
+	                	
+
+		                playerName = in.readUTF();
+		                System.out.println("Depois");
+		                //posicao = in.readInt();
+
 	                	System.out.println(playerName+" " + posicao);
 	                	for(DataOutputStream o:out_stream){
-	                		out.writeUTF(playerName+" " + posicao);
+	                		out.writeUTF(playerName);
 	                	}
 	                }
 

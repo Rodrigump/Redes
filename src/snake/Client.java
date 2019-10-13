@@ -65,8 +65,10 @@ public class Client {
 	            int key = e.getKeyCode();
 	            //System.out.println(key);
 	           try {
-	        	   out.writeUTF(playerName);
-	        	   out.writeInt(key);
+	        	   String info = playerName+" " +Integer.toString(key);
+	        	   out.writeUTF(info);
+	        	   //out.writeInt(key);
+	        	   out.flush();
 	        	   jogo.atualizaPosicao(key,playerName);
 
 	           } catch (Exception err) {
@@ -129,7 +131,7 @@ class Input extends Thread{
             System.out.println("Cliente recebeu "+ snake);
             int players = in.readInt();
             
-            int prontos=-1;
+            int prontos=0;
            
             int r = JOptionPane.showConfirmDialog(null, "Pronto?");
             if (r == JOptionPane.YES_OPTION) {
@@ -147,15 +149,15 @@ class Input extends Thread{
             	prontos+= inp;
             	//System.out.println("prontos"+prontos);
             }
-            //System.out.println("Prontos"+prontos+" players "+players);
-
+            
+            System.out.println("Prontos"+prontos+" players "+players);
+            
             
             Board jogo = new Board(players);
 
             startsGame(jogo,this.ex);
             
-            in.close();
-            in = new DataInputStream(socket.getInputStream());
+            
             
            
 
