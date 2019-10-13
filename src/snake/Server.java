@@ -98,11 +98,13 @@ import java.util.concurrent.Executors;
 	                
 	                
 	                while (true) {
-	                	
+	                	System.out.println("AA");
 	                	playerName = in.readUTF();
 	                	posicao = in.readInt();
 	                	System.out.println(playerName+" " + posicao);
-	                	out.writeUTF(playerName+" " + posicao);
+	                	for(DataOutputStream o:out_stream){
+	                		out.writeUTF(playerName+" " + posicao);
+	                	}
 	                }
 
 

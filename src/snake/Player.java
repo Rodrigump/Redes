@@ -10,7 +10,7 @@ public class Player extends JPanel {
 
     public Player() {
 
-        add(new Board());
+        add(new Board(2));
         
    
     	

@@ -97,7 +97,7 @@ class Input extends Thread{
 	int posicao;
 		while(true) {
     		try {
-    			
+    			System.out.println("Tentando ler");
     			String leitura;
 	        	leitura = in.readUTF();
 	        	String[] temp = new String[2];
@@ -129,14 +129,14 @@ class Input extends Thread{
             System.out.println("Cliente recebeu "+ snake);
             int players = in.readInt();
             
-            int prontos=0;
+            int prontos=-1;
            
             int r = JOptionPane.showConfirmDialog(null, "Pronto?");
             if (r == JOptionPane.YES_OPTION) {
             	
             	out.writeInt(1);
             }
-            System.out.println("Prontos"+prontos+" players "+players);
+            //System.out.println("Prontos"+prontos+" players "+players);
             
             
             
@@ -145,17 +145,17 @@ class Input extends Thread{
             	int inp = in.readInt();	 
             	
             	prontos+= inp;
-            	System.out.println("prontos"+prontos);
+            	//System.out.println("prontos"+prontos);
             }
-            System.out.println("Prontos"+prontos+" players "+players);
-            System.out.println("AA");
+            //System.out.println("Prontos"+prontos+" players "+players);
+
             
             Board jogo = new Board(players);
 
             startsGame(jogo,this.ex);
             
-         
-            
+            in.close();
+            in = new DataInputStream(socket.getInputStream());
             
            
 

@@ -8,7 +8,7 @@ public class Main extends JFrame {
 
     public Main() {
 
-        add(new Board());
+        add(new Board(2));
         
         setResizable(false);
         pack();
