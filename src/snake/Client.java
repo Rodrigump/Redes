@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -26,16 +27,17 @@ public class Client {
     DataOutputStream out;
     PrintWriter outP;
     BufferedReader inB;
- 
+    List<Integer> appleLocation;
  
     //PrintWriter out;
    String playerName;
     MainScreen screen;
     public JFrame ex;
 
-    public Client(String serverAddress, JFrame ex) {
+    public Client(String serverAddress, JFrame ex,List<Integer> appleLocation) {
     	this.ex = ex;
         this.serverAddress = serverAddress;
+        this.appleLocation = appleLocation;
        // MainScreen.ex.pack();
 
 
@@ -47,9 +49,7 @@ public class Client {
         ex.getContentPane().invalidate();
         ex.getContentPane().add(jogo);
         ex.getContentPane().revalidate();
-      
-       
-        //jogo.requestFocusInWindow();
+
         ex.setVisible(true);
 		
 	}
@@ -72,16 +72,9 @@ public class Client {
 	            int key = e.getKeyCode();
 	            //System.out.println(key);
 	           try {
-	        	   String info = playerName+" " +Integer.toString(key);
-	        	  
-	        	   
+	        	   String info = playerName+" " +Integer.toString(key);	     	        	   
 	        	   outP.print(info);
 	        	   out.writeUTF(info);
-	        	   System.out.println("imprimiu");
-	        	   //out.writeUTF(info);
-	        	   //out.writeInt(key);
-	        	   //out.flush();
-	        	   System.out.println("info "+ info);
 	        	   jogo.atualizaPosicao(key,playerName);
 
 	           } catch (Exception err) {
@@ -112,16 +105,14 @@ class Input extends Thread{
 	int posicao;
 		while(true) {
     		try {
-    			System.out.println("Tentando ler");
     			String leitura;
 	        	leitura = in.readUTF();
-	        	System.out.println("leitura: "+leitura);
 	        	String[] temp = new String[2];
 	        	temp = leitura.split(" ");
 	        	posicao = Integer.parseInt(temp[1]);
 	        	
 	        	if(!temp[0].equals(playerName))	jogo.atualizaPosicao(posicao,temp[0]);
-	        	System.out.println("CC"+posicao);
+
 	    		}catch(Exception err) {
 	    			System.out.println(err.getMessage());
 	    		}
@@ -162,15 +153,12 @@ class Input extends Thread{
             
             while(prontos<players){
             	int inp = in.readInt();	 
-            	
             	prontos+= inp;
-            	System.out.println("prontos"+prontos);
+
             }
+
             
-            System.out.println("Prontos"+prontos+" players "+players);
-            
-            
-            Board jogo = new Board(players);
+            Board jogo = new Board(players,appleLocation);
 
             startsGame(jogo,this.ex);
             

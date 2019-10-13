@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.ImageIcon;
@@ -24,7 +25,7 @@ public class Board extends JPanel implements ActionListener {
     private final int DOT_SIZE = 10;
     private final int RAND_POS = 29;
     private final int DELAY = 140;
-
+    public List<Integer> appleLocation;
     private  int NPLAYERS;
     
     private final Map<String, Snake> snakeMap = new HashMap<String, Snake>();
@@ -36,14 +37,17 @@ public class Board extends JPanel implements ActionListener {
     private int apple_y;
 
 
+    public int random = 2;
+    
     private boolean inGame = true;
 
     private Timer timer;
     private Image apple;
 
 
-    public Board(int players) {
+    public Board(int players, List<Integer>appleLocation) {
     	this.NPLAYERS = players;
+    	this.appleLocation = appleLocation;
        // addKeyListener(new TAdapter());
         grabFocus();
         setBackground(Color.black);
@@ -153,7 +157,9 @@ public class Board extends JPanel implements ActionListener {
         if ((snakeMap.get(snake).x[0] == apple_x) && (snakeMap.get(snake).y[0] == apple_y)) {
         	snakeMap.get(snake).score +=10;
         	snakeMap.get(snake).dots++;
+
             locateApple();
+            
         }
     }
 
@@ -216,11 +222,15 @@ public class Board extends JPanel implements ActionListener {
 
     private void locateApple() {
 
-        int r = (int) (Math.random() * RAND_POS);
-        apple_x = ((r * DOT_SIZE));
+        //int r = (int) (Math.random() * RAND_POS);
+        //apple_x = ((random * DOT_SIZE));
+    	apple_x = appleLocation.remove(0)* DOT_SIZE;
+    	System.out.println(apple_x);
 
-        r = (int) (Math.random() * RAND_POS);
-        apple_y = ((r * DOT_SIZE));
+        //r = (int) (Math.random() * RAND_POS);
+        //apple_y = ((random * DOT_SIZE));
+    	apple_y = appleLocation.remove(0)* DOT_SIZE;
+    	System.out.println(apple_y);
     }
 
     @Override

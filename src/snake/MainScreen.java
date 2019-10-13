@@ -7,6 +7,8 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.InetAddress;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -57,12 +59,27 @@ public class MainScreen {
 	}
 	
 		
-	
+	public static List<Integer> sorteiaVetor(){
+    	List<Integer> appleLocation = new ArrayList<Integer>();
+    	
+    	for(int i = 0; i<2000; i++){
+    		int r = (int) (Math.random() * 29);
+    		appleLocation.add(r);
+    		
+    	}
+    	
+    	return appleLocation;
+    }
 	
 	
 	
 	
 	static private JPanel painel() {
+		
+		
+		
+		
+		List<Integer> appleLocation = sorteiaVetor();
 		JPanel painel = new JPanel();
 		 BoxLayout boxlayout = new BoxLayout(painel, BoxLayout.Y_AXIS);
 	        painel.setLayout(boxlayout);
@@ -107,7 +124,7 @@ public class MainScreen {
 					}
 					JOptionPane.showMessageDialog(null, "Informar o ip: " + ipS[1]);
 					System.out.println(ipS[1]);
-					Client cliente = new Client(ipS[1],ex);
+					Client cliente = new Client(ipS[1],ex,appleLocation);
 					cliente.playerName = name;
 					try {
 						cliente.run();	
@@ -133,7 +150,7 @@ public class MainScreen {
 					String name = JOptionPane.showInputDialog("Qual é seu nome?");
 					String ip = JOptionPane.showInputDialog("Qual é o ip do servidor?");
 					//System.out.println(ip);
-					Client cliente = new Client(ip,ex);
+					Client cliente = new Client(ip,ex,appleLocation);
 					cliente.playerName = name;
 					try {
 						cliente.run();	
@@ -150,7 +167,12 @@ public class MainScreen {
 		
 		
 		return painel;
+		
+		
+		
 	}
+	
+	 
 	
 public static void main(String[] args) {
         

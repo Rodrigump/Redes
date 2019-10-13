@@ -14,6 +14,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -34,7 +35,7 @@ import java.util.concurrent.Executors;
     		Server.jogadores = jogadores;
     	}
     	
-
+    	
 
 	    public  void inicia() throws Exception {
 	        System.out.println("Server is running...");
@@ -46,10 +47,10 @@ import java.util.concurrent.Executors;
 	            	
 	                pool.execute(new Handler(listener.accept()));
 	                NPLAYERS += 1;
-	                System.out.println(NPLAYERS);
+	                //System.out.println(NPLAYERS);
 	                //System.out.println(jogadores);
 	            }
-	            System.out.println("aqui");
+	           
 	        }
 	    }
 
@@ -75,8 +76,6 @@ import java.util.concurrent.Executors;
 
 	        public void run() {
 	            try {
-	            	System.out.println("Aqui");
-	            	
 	            	in = new DataInputStream(socket.getInputStream());
 	                out = new DataOutputStream(socket.getOutputStream());
 	                
@@ -106,24 +105,14 @@ import java.util.concurrent.Executors;
 		            	}
 	                	prontos+= inp;
 
-	                
-	                //System.out.println(in.read());
-	                System.out.println(in.available());
-	                	
 	                	
 	                String info;
 	                while (true) {
 	                	if(in.available()>0){
-		                	System.out.println("Q");
-		                	
-		                	//info = inB.readLine();
-			                playerName = in.readUTF();
-			                System.out.println("playerName "+ playerName);
-			                System.out.println("Depois");
-			                //posicao = in.readInt();
-	
-		                	System.out.println(playerName+" " + posicao);
-	
+	                		playerName = in.readUTF();
+	                		//if(Character.isDigit(playerName.charAt(0))){
+			                
+
 		                	for(Handler s: sockets){
 		                		
 		                		if(!playerName.equals(s.name)) s.out.writeUTF(playerName);
@@ -141,5 +130,7 @@ import java.util.concurrent.Executors;
 	    }
 	
 	
+	   
+	    
 	
 }
