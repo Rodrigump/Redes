@@ -3,9 +3,12 @@ package snake;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Socket;
 
 import javax.swing.JFrame;
@@ -21,6 +24,10 @@ public class Client {
     //Scanner in;
     DataInputStream in;
     DataOutputStream out;
+    PrintWriter outP;
+    BufferedReader inB;
+ 
+ 
     //PrintWriter out;
    String playerName;
     MainScreen screen;
@@ -66,9 +73,12 @@ public class Client {
 	            //System.out.println(key);
 	           try {
 	        	   String info = playerName+" " +Integer.toString(key);
-	        	   out.writeUTF(info);
+	        	   
+	        	   outP.print(info);
+	        	   //out.writeUTF(info);
 	        	   //out.writeInt(key);
-	        	   out.flush();
+	        	   //out.flush();
+	        	   System.out.println("info "+ info);
 	        	   jogo.atualizaPosicao(key,playerName);
 
 	           } catch (Exception err) {
@@ -88,10 +98,10 @@ public class Client {
 }
 
 class Input extends Thread{
-	DataInputStream in;
+	
 	Board jogo;
-	Input(DataInputStream in,Board jogo){
-		this.in = in;
+	Input(Board jogo){
+		
 		this.jogo = jogo;
 	}
 	
@@ -102,9 +112,11 @@ class Input extends Thread{
     			System.out.println("Tentando ler");
     			String leitura;
 	        	leitura = in.readUTF();
+	        	System.out.println("leitura: "+leitura);
 	        	String[] temp = new String[2];
 	        	temp = leitura.split(" ");
 	        	posicao = Integer.parseInt(temp[1]);
+	        	
 	        	if(!temp[0].equals(playerName))	jogo.atualizaPosicao(posicao,temp[0]);
 	        	System.out.println("CC"+posicao);
 	    		}catch(Exception err) {
@@ -124,7 +136,8 @@ class Input extends Thread{
             in = new DataInputStream(socket.getInputStream());
             out = new DataOutputStream(socket.getOutputStream());
             
-           
+            outP = new PrintWriter(socket.getOutputStream(), true);
+            inB = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             
             String snake = (String)in.readUTF();
             playerName = snake;
@@ -137,6 +150,7 @@ class Input extends Thread{
             if (r == JOptionPane.YES_OPTION) {
             	
             	out.writeInt(1);
+            	prontos++;
             }
             //System.out.println("Prontos"+prontos+" players "+players);
             
@@ -147,7 +161,7 @@ class Input extends Thread{
             	int inp = in.readInt();	 
             	
             	prontos+= inp;
-            	//System.out.println("prontos"+prontos);
+            	System.out.println("prontos"+prontos);
             }
             
             System.out.println("Prontos"+prontos+" players "+players);
@@ -161,7 +175,8 @@ class Input extends Thread{
             
            
 
-            Input i = new Input(in,jogo);
+            Input i = new Input(jogo);
+            
             Teclado t = new Teclado(jogo,playerName);
             
             i.start();
